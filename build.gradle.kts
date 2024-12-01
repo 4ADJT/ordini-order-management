@@ -46,6 +46,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.cloud:spring-cloud-stream-test-support")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0")
+
 }
 dependencyManagement {
 	imports {
