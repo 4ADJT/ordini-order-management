@@ -3,6 +3,7 @@ package io.ordini.order.domain.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -20,7 +21,7 @@ public class OrderItem {
     private int quantity;
 
     @Column(nullable = false)
-    private double price;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "order_id")

@@ -1,4 +1,4 @@
-package io.ordini.order.gateway;
+package io.ordini.order.openfeign;
 
 import io.ordini.order.domain.dto.CustomerDTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-@FeignClient(name = "customer-service", url = "http://customer-service/api/customers")
+@FeignClient(name = "clients", url = "http://clients/api/customers")
 public interface CustomerClient {
     @GetMapping("/{id}")
     ResponseEntity<CustomerDTO> getCustomerById(@PathVariable UUID id);

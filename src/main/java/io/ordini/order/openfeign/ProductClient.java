@@ -1,4 +1,4 @@
-package io.ordini.order.gateway;
+package io.ordini.order.openfeign;
 
 import io.ordini.order.domain.dto.ProductDTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-@FeignClient(name = "product-service", url = "http://product-service/api/products")
+@FeignClient(name = "product", url = "http://product/api/products")
 public interface ProductClient {
     @GetMapping("/{id}")
     ResponseEntity<ProductDTO> getProductById(@PathVariable UUID id);
 
-//    @PostMapping("/check-stock")
-//    ResponseEntity<Boolean> checkStock(@RequestBody StockRequestDTO stockRequest);
 }

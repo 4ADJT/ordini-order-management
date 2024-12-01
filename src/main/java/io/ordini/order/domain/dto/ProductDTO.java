@@ -1,31 +1,53 @@
 package io.ordini.order.domain.dto;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 public class ProductDTO {
-    private int productId;
-    private String productName;
-    private String productDescription;
-    private double productPrice;
-    private int productQuantity;
 
-    public ProductDTO(int productId, String productName, String productDescription, double productPrice, int productQuantity) {}
+    private UUID id;
+    private String name;
+    private String description;
+    private BigDecimal price;
+    private Integer stock;
+    private String currency;
+    private String sourceFile;
+    private String createdAt;
+    private String updatedAt;
 
-    public int getProductId() {
-        return productId;
+    public UUID getId() {
+        return id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public double getProductPrice() {
-        return productPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public int getProductQuantity() {
-        return productQuantity;
+    public Integer getStock() {
+        return stock;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public String getSourceFile() {
+        return sourceFile;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 }
