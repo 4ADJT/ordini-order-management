@@ -88,7 +88,7 @@ public class OrderService {
 
     public Order getOrderById(UUID orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Pedido encontrado."));
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado."));
     }
 
     public List<Order> getAllOrders() {
