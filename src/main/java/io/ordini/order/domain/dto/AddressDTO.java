@@ -14,8 +14,8 @@ public class AddressDTO {
     private String state;
     private String country;
     private String zipCode;
-    private Long longitude;
-    private Long latitude;
+    private String longitude;
+    private String latitude;
     private LocalDateTime createdAt;
 
     public UUID getId() {
@@ -58,11 +58,11 @@ public class AddressDTO {
         return zipCode;
     }
 
-    public Long getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public Long getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
