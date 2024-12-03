@@ -1,17 +1,25 @@
 package io.ordini.order.domain.dto;
 
-import java.util.UUID;
+import io.ordini.order.domain.enums.TrackingStageEnum;
 
 public class DeliveryRequestDTO {
-    private UUID orderId;
-    private UUID customerId;
-    private Long latitude;
-    private Long longitude;
 
-    public DeliveryRequestDTO(UUID orderId, UUID customerId, Long latitude, Long longitude) {
-        this.orderId = orderId;
-        this.customerId = customerId;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    private String retailerLatitude;
+    private String retailerLongitude;
+
+    private String customerLatitude;
+    private String customerLongitude;
+
+    private TrackingStageEnum trackingStage;
+
+    private CarrierDTO carrier;
+
+    public DeliveryRequestDTO(String retailerLatitude, String retailerLongitude, String customerLatitude, String customerLongitude, TrackingStageEnum trackingStage, CarrierDTO carrier) {
+        this.retailerLatitude = retailerLatitude;
+        this.retailerLongitude = retailerLongitude;
+        this.customerLatitude = customerLatitude;
+        this.customerLongitude = customerLongitude;
+        this.trackingStage = trackingStage;
+        this.carrier = carrier;
     }
 }

@@ -10,14 +10,14 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "orders")
-public class Order {
+public class OrderModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false)
-    private UUID customerId;
+    private String document;
 
     @Column(nullable = false)
     private String status;
@@ -26,5 +26,5 @@ public class Order {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> items;
+    private List<OrderItemModel> items;
 }

@@ -1,6 +1,6 @@
 package io.ordini.order.controller;
 
-import io.ordini.order.domain.model.Order;
+import io.ordini.order.domain.model.OrderModel;
 import io.ordini.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,25 +22,25 @@ public class OrderController {
 
     @PostMapping(value = "/create", produces = "application/json")
     @Operation(summary = "Create order", description = "Create order.")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(order));
+    public ResponseEntity<OrderModel> createOrder(@RequestBody OrderModel orderModel) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(orderModel));
     }
 
     @PutMapping(value = "/{id}/status", produces = "application/json")
     @Operation(summary = "Update status order", description = "Update status order.")
-    public ResponseEntity<Order> updateStatus(@PathVariable UUID id, @RequestParam String status) {
+    public ResponseEntity<OrderModel> updateStatus(@PathVariable UUID id, @RequestParam String status) {
         return ResponseEntity.ok(orderService.updateStatus(id, status));
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(summary = "Get order", description = "Get order by id.")
-    public ResponseEntity<Order> getOrder(@PathVariable UUID id) {
+    public ResponseEntity<OrderModel> getOrder(@PathVariable UUID id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
     @GetMapping(value = "", produces = "application/json")
     @Operation(summary = "Get all order", description = "Get all order.")
-    public ResponseEntity<List<Order>> getAllOrder() {
+    public ResponseEntity<List<OrderModel>> getAllOrder() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 

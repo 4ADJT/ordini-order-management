@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "order_items")
-public class OrderItem {
+public class OrderItemModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
@@ -25,5 +25,5 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderModel orderModel;
 }
