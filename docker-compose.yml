@@ -1,36 +1,12 @@
-version: '3.9'
 
 networks:
   ordini_network:
     driver: bridge
 
 volumes:
-  ordini_db_data:
+  ordini_order_db_data:
 
 services:
-  client:
-    build:
-      context: ./client
-    ports:
-      - "8080:8080"
-    networks:
-      - ordini_network
-
-  product:
-    build:
-      context: ./product
-    ports:
-      - "8081:8081"
-    networks:
-      - ordini_product_network
-
-  delivery:
-    build:
-      context: ./delivery
-    ports:
-      - "9090:9090"
-    networks:
-      - delivery_network
 
   postgresdb:
     image: postgres:latest
@@ -40,26 +16,29 @@ services:
       POSTGRES_USER: ${DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}
       POSTGRES_DB: ${DATASOURCE_DATABASE}
+    command: -p 5434
+    expose:
+      - "5434"
     ports:
-      - "5432:5432"
+      - "5434:5434"
     healthcheck:
       test: [
         "CMD-SHELL",
-        "pg_isready -U ${DATASOURCE_USERNAME} -d ${DATASOURCE_DATABASE}"
+        "pg_isready -h localhost -p 5434 -U ${DATASOURCE_USERNAME} -d ${DATASOURCE_DATABASE}",
       ]
       interval: 10s
       retries: 5
       start_period: 30s
       timeout: 10s
     networks:
-      - ordini_order_network
+      - ordini_network
     volumes:
-      - ordini_db_data:/var/lib/postgresql/data
+      - ordini_order_db_data:/var/lib/postgresql/data
 
   app:
     container_name: ordini_order
     build:
-      context: ./app
+      context: .
       dockerfile: Dockerfile
     restart: on-failure
     ports:
@@ -73,4 +52,4 @@ services:
       postgresdb:
         condition: service_healthy
     networks:
-      - ordini_order_network
+      - ordini_network
