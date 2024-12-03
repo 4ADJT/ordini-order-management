@@ -44,5 +44,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-
+    @DeleteMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable UUID id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.ok().body(HttpStatus.OK);
+    }
 }

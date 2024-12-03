@@ -157,4 +157,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public void deleteOrder(UUID id) {
+        orderRepository.deleteById(id);
+    }
 }
