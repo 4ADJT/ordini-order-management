@@ -48,6 +48,7 @@ public class OrderService {
         for (OrderItemModel item : orderModel.getItems()) {
             ProductDTO productDTO = validateProduct(item);
             validateProductStockAndPrice(item, productDTO);
+            updateStockProduct(item);
         }
 
         // Validar transportadora
@@ -95,6 +96,14 @@ public class OrderService {
         if (!Objects.equals(productDTO.getPrice(), item.getPrice())) {
             throw new OrderException("Preço do item está com valor diferente do produto em estoque. " +
                     "\n Preço em estoque: " + productDTO.getPrice(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    private void updateStockProduct(OrderItemModel item) {
+        ResponseEntity<ProductDTO> response = productClient.updateProduct(item.getProductId(), item.getQuantity());
+        if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
+            throw new OrderException("Erro ao atualizar o stock do produto: " + item.getProductId(), HttpStatus.BAD_REQUEST);
         }
     }
 
