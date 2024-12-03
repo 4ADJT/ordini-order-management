@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.UUID;
 
-@FeignClient(name = "product", url = "http://product/products")
+@FeignClient(name = "product", url = "http://product:8081/products")
 public interface ProductClient {
 
     @GetMapping("/find-id/{id}")

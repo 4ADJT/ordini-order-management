@@ -1,3 +1,5 @@
+version: '3.9'
+
 networks:
   ordini_network:
     driver: bridge
@@ -6,6 +8,30 @@ volumes:
   ordini_db_data:
 
 services:
+  client:
+    build:
+      context: ./client
+    ports:
+      - "8080:8080"
+    networks:
+      - ordini_network
+
+  product:
+    build:
+      context: ./product
+    ports:
+      - "8081:8081"
+    networks:
+      - ordini_product_network
+
+  delivery:
+    build:
+      context: ./delivery
+    ports:
+      - "9090:9090"
+    networks:
+      - delivery_network
+
   postgresdb:
     image: postgres:latest
     container_name: ordini_order_postgres
@@ -19,36 +45,32 @@ services:
     healthcheck:
       test: [
         "CMD-SHELL",
-        "pg_isready -h localhost -U ${DATASOURCE_USERNAME} -d ${DATASOURCE_DATABASE}",
+        "pg_isready -U ${DATASOURCE_USERNAME} -d ${DATASOURCE_DATABASE}"
       ]
       interval: 10s
       retries: 5
       start_period: 30s
       timeout: 10s
-    command: -p 5433
     networks:
-      - ordini_network
+      - ordini_order_network
     volumes:
       - ordini_db_data:/var/lib/postgresql/data
 
   app:
     container_name: ordini_order
     build:
-      context: .
+      context: ./app
       dockerfile: Dockerfile
     restart: on-failure
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "8082:8082"
     environment:
-#      JAVA_OPTS: "-Xms512m -Xmx1024m"
-      DATASOURCE_URL: ${DATASOURCE_URL}
+      DATASOURCE_URL: ${DATASOURCE_DATABASE}
       DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
       DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
-      SERVER_PORT: ${SERVER_PORT}
+      SERVER_PORT: 8082
     depends_on:
       postgresdb:
         condition: service_healthy
     networks:
-      - order_network
-
-
+      - ordini_order_network

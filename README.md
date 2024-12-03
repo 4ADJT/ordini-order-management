@@ -27,9 +27,9 @@ Use o arquivo de tipo `.env` para definir as variáveis de ambiente necessárias
 DATASOURCE_USERNAME=postgres
 DATASOURCE_PASSWORD=postgres
 DATASOURCE_DATABASE=order
-DATASOURCE_URL=jdbc:postgresql://postgresdb:5432/order
+DATASOURCE_URL=jdbc:postgresql://postgresdb:5434/order
 
-SERVER_PORT=8080
+SERVER_PORT=8585
 ```
 
 ## Execução
