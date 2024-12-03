@@ -32,12 +32,6 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdocVersion")
 	implementation("org.mapstruct:mapstruct:$mapstructVersion")
 
-	// Adicionando uma verificação para o RabbitMQ no ambiente de desenvolvimento
-	if (project.hasProperty("rabbitmqEnabled") && project.property("rabbitmqEnabled") == "true") {
-		implementation("org.springframework.cloud:spring-cloud-starter-stream-rabbit")
-		implementation("org.springframework.cloud:spring-cloud-stream-binder-rabbit")
-	}
-
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 

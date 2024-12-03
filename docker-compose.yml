@@ -8,7 +8,7 @@ volumes:
 
 services:
 
-  postgresdb:
+  postgresdb_order:
     image: postgres:latest
     container_name: ordini_order_postgres
     restart: on-failure
@@ -42,14 +42,14 @@ services:
       dockerfile: Dockerfile
     restart: on-failure
     ports:
-      - "8082:8082"
+      - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
       DATASOURCE_URL: ${DATASOURCE_DATABASE}
       DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
       DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
-      SERVER_PORT: 8082
+      SERVER_PORT: ${SERVER_PORT}
     depends_on:
-      postgresdb:
+      postgresdb_order:
         condition: service_healthy
     networks:
       - ordini_network
