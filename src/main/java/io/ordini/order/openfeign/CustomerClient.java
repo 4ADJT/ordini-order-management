@@ -10,6 +10,7 @@ import java.util.UUID;
 
 @FeignClient(name = "clients", url = "http://clients/api/customers")
 public interface CustomerClient {
+
     @GetMapping("/{id}")
-    ResponseEntity<CustomerDTO> getCustomerById(@PathVariable UUID id);
+    ResponseEntity<CustomerDTO> getCustomerById(@PathVariable String document);
 }
