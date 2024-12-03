@@ -26,9 +26,9 @@ public class RetailerController {
         return ResponseEntity.ok(retailerService.getRetailer());
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @Operation(summary = "Get retailer by id", description = "Get retailer by id.")
-    public ResponseEntity<RetailerModel> getRetailerById(@RequestParam UUID id) {
+    public ResponseEntity<RetailerModel> getRetailerById(@PathVariable UUID id) {
         return ResponseEntity.ok(retailerService.getRetailerById(id));
     }
 
@@ -38,15 +38,15 @@ public class RetailerController {
         return ResponseEntity.ok(retailerService.createRetailer(retailer));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Operation(summary = "Update retailer", description = "Update retailer.")
-    public ResponseEntity<RetailerModel> updateRetailer(@RequestParam UUID id,@RequestBody RetailerModel retailer) {
+    public ResponseEntity<RetailerModel> updateRetailer(@PathVariable UUID id,@RequestBody RetailerModel retailer) {
         return ResponseEntity.ok(retailerService.updateRetailer(id, retailer));
     }
 
-    @DeleteMapping
-    @Operation(summary = "Delte retailer", description = "Delete retailer.")
-    public ResponseEntity<HttpStatus> deleteRetailer(@RequestParam UUID id) {
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete retailer", description = "Delete retailer.")
+    public ResponseEntity<HttpStatus> deleteRetailer(@PathVariable UUID id) {
         retailerService.deleteRetailer(id);
         return ResponseEntity.ok().body(HttpStatus.OK);
     }

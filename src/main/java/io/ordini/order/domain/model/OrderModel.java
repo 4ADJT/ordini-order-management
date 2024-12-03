@@ -25,6 +25,6 @@ public class OrderModel {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderModel", cascade = CascadeType.ALL)
     private List<OrderItemModel> items;
 }

@@ -9,11 +9,8 @@ public class ProductDTO {
     private String name;
     private String description;
     private BigDecimal price;
-    private Integer stock;
+    private int stock;
     private String currency;
-    private String sourceFile;
-    private String createdAt;
-    private String updatedAt;
 
     public UUID getId() {
         return id;
@@ -31,7 +28,7 @@ public class ProductDTO {
         return price;
     }
 
-    public Integer getStock() {
+    public int getStock() {
         return stock;
     }
 
@@ -39,15 +36,4 @@ public class ProductDTO {
         return currency;
     }
 
-    public String getSourceFile() {
-        return sourceFile;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
 }
