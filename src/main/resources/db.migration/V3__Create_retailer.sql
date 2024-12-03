@@ -1,0 +1,7 @@
+CREATE TABLE retailer (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    retailer_name VARCHAR(50) NOT NULL,
+    lat VARCHAR(250) NOT NULL,
+    lon VARCHAR(250) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
