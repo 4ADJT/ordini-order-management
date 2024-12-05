@@ -3,6 +3,7 @@ package io.ordini.order.service;
 import io.ordini.order.controller.exception.OrderException;
 import io.ordini.order.domain.model.RetailerModel;
 import io.ordini.order.repositories.RetailerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Service
 public class RetailerService {
 
+    @Autowired
     private RetailerRepository retailerRepository;
 
     public List<RetailerModel> getRetailer() {

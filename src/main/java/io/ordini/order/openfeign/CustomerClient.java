@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-@FeignClient(name = "clients", url = "http://localhost:8080/customers")
+@FeignClient(name = "clients", url = "http://host.docker.internal:8080/client")
 public interface CustomerClient {
 
-    @GetMapping("/{id}")
+    @GetMapping("/find-document/{document}")
     ResponseEntity<CustomerDTO> getCustomerById(@PathVariable String document);
 }
