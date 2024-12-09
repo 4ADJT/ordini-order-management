@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -93,7 +95,10 @@ public class OrderService {
                     "\n Quantidade requisitada: " + item.getQuantity(), HttpStatus.BAD_REQUEST);
         }
 
-        if (!Objects.equals(productDTO.getPrice(), item.getPrice())) {
+        BigDecimal formattedProductPrice = productDTO.getPrice().setScale(2, RoundingMode.HALF_UP);
+        BigDecimal formattedItemPrice = item.getPrice().setScale(2, RoundingMode.HALF_UP);
+
+        if (!Objects.equals(formattedProductPrice, formattedItemPrice)) {
             throw new OrderException("Preço do item está com valor diferente do produto em estoque. " +
                     "\n Preço em estoque: " + productDTO.getPrice(), HttpStatus.BAD_REQUEST);
         }
