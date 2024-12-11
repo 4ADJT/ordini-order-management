@@ -11,6 +11,8 @@ import io.ordini.order.openfeign.DeliveryClient;
 import io.ordini.order.openfeign.ProductClient;
 import io.ordini.order.repositories.OrderRepository;
 import io.ordini.order.repositories.RetailerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,8 @@ import java.util.UUID;
 
 @Service
 public class OrderService {
+
+    private final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     @Autowired
     private OrderRepository orderRepository;
@@ -46,11 +50,24 @@ public class OrderService {
         // Validar cliente
         CustomerDTO customerDTO = validateCustomer(orderModel.getDocument());
 
+        OrderModel order = new OrderModel();
+        order.setDocument(orderModel.getDocument());
+        order.setStatus(TrackingStageEnum.TRANSPORT_TO_RETAILER.getDescription());
+        order.setCreatedAt(LocalDateTime.now());
+
+        log.debug("Validar produtos");
         // Validar produtos
         for (OrderItemModel item : orderModel.getItems()) {
             ProductDTO productDTO = validateProduct(item);
             validateProductStockAndPrice(item, productDTO);
             updateStockProduct(item);
+
+            item.setProductId(item.getProductId());
+            item.setQuantity(item.getQuantity());
+            item.setPrice(item.getPrice());
+
+            item.setOrder(order);
+            order.getItems().add(item);
         }
 
         // Validar transportadora
@@ -58,17 +75,20 @@ public class OrderService {
 
         // Validar varejista
         RetailerModel retailer = getRandomRetailer();
+        log.info("Passou do retailer: {}", retailer);
 
         // Recupera o endereço do cliente
         AddressDTO customerAddress = customerDTO.getAddress();
+        log.info("Passou do custumer: {}", customerAddress);
 
         // Notificar logística
         notifyDelivery(retailer, customerAddress, carrier);
+        log.info("Notificar logística");
 
         // Salvar pedido
-        orderModel.setCreatedAt(LocalDateTime.now());
-        orderModel.setStatus(TrackingStageEnum.TRANSPORT_TO_RETAILER.getDescription());
-        return orderRepository.save(orderModel);
+        log.info("Salvando: {}", order.getId());
+        log.info("Salvando: {}", order.getItems().size());
+        return orderRepository.save(order);
     }
 
     private CustomerDTO validateCustomer(String document) {
@@ -127,7 +147,10 @@ public class OrderService {
             throw new OrderException("Varejista não encontrado.", HttpStatus.BAD_REQUEST);
         }
         Random random = new Random();
-        return retailers.get(random.nextInt(retailers.size()));
+        log.info("Número de varejistas encontrados: {}", retailers.size());
+        int randomIndex = random.nextInt(retailers.size());
+        log.info("Número de varejistas encontrados: {}", retailers.get(randomIndex));
+        return retailers.get(randomIndex);
     }
 
     private void notifyDelivery(RetailerModel retailer, AddressDTO customerAddress, CarrierDTO carrier) {
@@ -154,12 +177,11 @@ public class OrderService {
     }
 
     public OrderModel getOrderById(UUID orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderException("Pedido não encontrado.", HttpStatus.NOT_FOUND));
+        return orderRepository.getByIdWithItem(orderId);
     }
 
     public List<OrderModel> getAllOrders() {
-        return orderRepository.findAll();
+        return orderRepository.findAllOrdersWithItems();
     }
 
     public void deleteOrder(UUID id) {

@@ -1,5 +1,6 @@
 package io.ordini.order.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,7 +24,8 @@ public class OrderItemModel {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private OrderModel orderModel;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
+    @JsonBackReference
+    private OrderModel order;
 }
